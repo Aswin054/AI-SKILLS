@@ -1,0 +1,2245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillBridge AI - Adaptive Learning Platform</title>
+    <style>
+        :root {
+            --primary: #4e54c8;
+            --secondary: #8f94fb;
+            --accent: #f6f8ff;
+            --text: #2c3e50;
+            --light: #ffffff;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--accent);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--light);
+            padding: 20px 0;
+            box-shadow: var(--shadow);
+            border-radius: 0 0 10px 10px;
+            margin-bottom: 30px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 20px;
+        }
+
+        .sidebar {
+            background-color: var(--light);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            height: fit-content;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 15px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text);
+            padding: 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: var(--primary);
+            color: var(--light);
+        }
+
+        .nav-icon {
+            font-size: 18px;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card {
+            background-color: var(--light);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--light);
+        }
+
+        .btn-primary:hover {
+            background-color: #3a41a5;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .progress-bar {
+            height: 20px;
+            border-radius: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            text-align: center;
+            line-height: 20px;
+            color: white;
+            font-size: 12px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .skill-card {
+            background-color: var(--accent);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .skill-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .skill-level {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .assessment-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .question-card {
+            background-color: var(--accent);
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .question-card.active {
+            display: block;
+        }
+
+        .question-text {
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .options-list {
+            list-style: none;
+        }
+
+        .option-item {
+            margin-bottom: 10px;
+        }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            padding: 10px 15px;
+            background-color: var(--light);
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option-btn:hover {
+            background-color: #f0f0f0;
+        }
+
+        .option-btn.selected {
+            background-color: #e0e8f9;
+            border-color: var(--primary);
+        }
+
+        .option-btn.correct {
+            background-color: #d4edda;
+            border-color: var(--success);
+        }
+
+        .option-btn.incorrect {
+            background-color: #f8d7da;
+            border-color: var(--danger);
+        }
+
+        .navigation-btns {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .learning-path {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .path-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background-color: var(--accent);
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .path-item.completed {
+            border-left: 4px solid var(--success);
+        }
+
+        .path-item.current {
+            border-left: 4px solid var(--primary);
+            background-color: rgba(78, 84, 200, 0.1);
+        }
+
+        .path-item.pending {
+            border-left: 4px solid #ddd;
+            opacity: 0.7;
+        }
+
+        .path-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .path-item.completed .path-icon {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .path-item.current .path-icon {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .path-content {
+            flex-grow: 1;
+        }
+
+        .path-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .path-desc {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .job-market {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .job-card {
+            background-color: var(--accent);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .job-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .job-company {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .job-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .skill-tag {
+            background-color: var(--light);
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .match-percentage {
+            height: 5px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .match-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .tab-container {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab.active {
+            border-bottom: 3px solid var(--primary);
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: var(--light);
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .badge-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .badge-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+
+        .badge-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background-color: var(--success);
+            color: white;
+            border-radius: 5px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1100;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.error {
+            background-color: var(--danger);
+        }
+
+        .toast.warning {
+            background-color: var(--warning);
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+            
+            .skills-grid, .job-market {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">SkillBridge AI</div>
+            <div class="user-profile">
+                <div class="avatar">JS</div>
+                <span id="username-display">John Smith</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="dashboard">
+            <div class="sidebar">
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active" data-tab="dashboard">
+                            <span class="nav-icon">📊</span>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-tab="learning-path">
+                            <span class="nav-icon">📚</span>
+                            Learning Path
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-tab="assessments">
+                            <span class="nav-icon">✍️</span>
+                            Assessments
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-tab="skills">
+                            <span class="nav-icon">🛠️</span>
+                            Skills Profile
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-tab="job-market">
+                            <span class="nav-icon">💼</span>
+                            Job Market
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-tab="career-support">
+                            <span class="nav-icon">🎯</span>
+                            Career Support
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-tab="settings">
+                            <span class="nav-icon">⚙️</span>
+                            Settings
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="main-content">
+                <!-- Dashboard Tab -->
+                <div class="tab-content active" id="dashboard">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title" id="welcome-message">Welcome Back, John!</div>
+                            <button class="btn btn-primary" id="update-profile-btn">Update Profile</button>
+                        </div>
+                        <p id="user-goal-display">Your personalized learning journey is tailored to help you achieve your career goals in Data Science.</p>
+                        
+                        <div style="margin: 20px 0;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Learning Progress</span>
+                                <span id="overall-progress">42%</span>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar" id="progress-bar" style="width: 42%;">42%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Recommended Next Steps</div>
+                        </div>
+                        <div class="learning-path" id="recommended-path">
+                            <!-- Filled by JavaScript -->
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Top Skill Matches in Job Market</div>
+                        </div>
+                        <div class="job-market" id="top-job-matches">
+                            <!-- Filled by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learning Path Tab -->
+                <div class="tab-content" id="learning-path">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Your Personalized Learning Path</div>
+                        </div>
+                        <div class="learning-path" id="full-learning-path">
+                            <!-- Filled by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Assessments Tab -->
+                <div class="tab-content" id="assessments">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Skill Assessments</div>
+                        </div>
+                        <div class="tab-container">
+                            <div class="tab active" data-assessment-tab="available">Available</div>
+                            <div class="tab" data-assessment-tab="completed">Completed</div>
+                        </div>
+                        <div class="assessment-tab-content active" id="available-assessments">
+                            <!-- Filled by JavaScript -->
+                        </div>
+                        <div class="assessment-tab-content" id="completed-assessments">
+                            <!-- Filled by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skills Profile Tab -->
+                <div class="tab-content" id="skills">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Your Skills Profile</div>
+                            <button class="btn btn-primary" id="update-skills-btn">Update Skills</button>
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Overall Skill Level</span>
+                                <span id="overall-skill-level">Intermediate (67%)</span>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar" id="overall-skill-bar" style="width: 67%;">67%</div>
+                            </div>
+                        </div>
+                        
+                        <div class="skills-grid" id="skills-grid">
+                            <!-- Filled by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job Market Tab -->
+                <div class="tab-content" id="job-market">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Job Market Opportunities</div>
+                            <button class="btn btn-primary" id="refresh-jobs-btn">Refresh</button>
+                        </div>
+                        <div class="tab-container">
+                            <div class="tab active" data-job-tab="best-matches">Best Matches</div>
+                            <div class="tab" data-job-tab="high-demand">High Demand</div>
+                            <div class="tab" data-job-tab="emerging">Emerging Roles</div>
+                        </div>
+                        <div class="job-tab-content active" id="best-matches-jobs">
+                            <!-- Filled by JavaScript -->
+                        </div>
+                        <div class="job-tab-content" id="high-demand-jobs">
+                            <!-- Filled by JavaScript -->
+                        </div>
+                        <div class="job-tab-content" id="emerging-jobs">
+                            <!-- Filled by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Career Support Tab -->
+                <div class="tab-content" id="career-support">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Career Support Services</div>
+                        </div>
+                        <div class="tab-container">
+                            <div class="tab active" data-career-tab="resume">Resume Builder</div>
+                            <div class="tab" data-career-tab="network">Networking</div>
+                            <div class="tab" data-career-tab="prep">Interview Prep</div>
+                        </div>
+                        <div class="career-tab-content active" id="resume-tab">
+                            <div style="display: flex; gap: 20px; margin-top: 20px;">
+                                <div style="flex: 1; background-color: var(--accent); padding: 20px; border-radius: 8px;">
+                                    <h3 style="margin-bottom: 15px;">Your Current Resume</h3>
+                                    <div style="background-color: white; padding: 20px; border-radius: 5px; min-height: 300px;" id="resume-preview">
+                                        <!-- Filled by JavaScript -->
+                                    </div>
+                                    <button class="btn btn-primary" style="margin-top: 15px; width: 100%;" id="download-resume">Download PDF</button>
+                                </div>
+                                <div style="flex: 1;">
+                                    <h3 style="margin-bottom: 15px;">AI Resume Suggestions</h3>
+                                    <div style="background-color: var(--accent); padding: 15px; border-radius: 8px; margin-bottom: 15px;" id="resume-strengths">
+                                        <!-- Filled by JavaScript -->
+                                    </div>
+                                    <div style="background-color: var(--accent); padding: 15px; border-radius: 8px; margin-bottom: 15px;" id="resume-suggestions">
+                                        <!-- Filled by JavaScript -->
+                                    </div>
+                                    <div style="background-color: var(--accent); padding: 15px; border-radius: 8px;">
+                                        <p><strong>📈 Optimization for:</strong> <span id="optimization-role">Data Analyst</span> roles</p>
+                                        <button class="btn btn-primary" style="margin-top: 10px; width: 100%;" id="optimize-resume">Optimize for This Role</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="career-tab-content" id="network-tab">
+                            <div style="margin-top: 20px;">
+                                <h3 style="margin-bottom: 15px;">Recommended Connections</h3>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px;" id="network-connections">
+                                    <!-- Filled by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="career-tab-content" id="prep-tab">
+                            <div style="margin-top: 20px;">
+                                <h3 style="margin-bottom: 15px;">Interview Preparation</h3>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px;" id="interview-prep-options">
+                                    <!-- Filled by JavaScript -->
+                                </div>
+                                
+                                <h3 style="margin: 25px 0 15px 0;">Common Questions for <span id="target-role">Data Analyst</span> Roles</h3>
+                                <div id="common-questions">
+                                    <!-- Filled by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Tab -->
+                <div class="tab-content" id="settings">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Account Settings</div>
+                        </div>
+                        <div style="display: flex; gap: 20px; margin-top: 20px;">
+                            <div style="flex: 1;">
+                                <h3 style="margin-bottom: 15px;">Profile Information</h3>
+                                <div class="form-group">
+                                    <label class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="profile-name" value="John Smith">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="profile-email" value="john.smith@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Career Goal</label>
+                                    <select class="form-control" id="career-goal">
+                                        <option>Data Scientist</option>
+                                        <option selected>Data Analyst</option>
+                                        <option>Machine Learning Engineer</option>
+                                        <option>Business Intelligence Analyst</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Experience Level</label>
+                                    <select class="form-control" id="experience-level">
+                                        <option>Entry Level</option>
+                                        <option selected>Early Career (1-3 years)</option>
+                                        <option>Mid Career (4-7 years)</option>
+                                        <option>Senior Level (8+ years)</option>
+                                    </select>
+                                </div>
+                                <div class="form-actions">
+                                    <button class="btn btn-primary" id="save-profile">Save Changes</button>
+                                </div>
+                            </div>
+                            <div style="flex: 1;">
+                                <h3 style="margin-bottom: 15px;">Learning Preferences</h3>
+                                <div class="form-group">
+                                    <label class="form-label">Daily Learning Goal</label>
+                                    <select class="form-control" id="daily-goal">
+                                        <option>30 minutes</option>
+                                        <option selected>1 hour</option>
+                                        <option>2 hours</option>
+                                        <option>3+ hours</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Preferred Learning Style</label>
+                                    <select class="form-control" id="learning-style">
+                                        <option>Visual (Videos, Diagrams)</option>
+                                        <option selected>Interactive (Hands-on exercises)</option>
+                                        <option>Reading (Articles, Documentation)</option>
+                                        <option>Auditory (Podcasts, Lectures)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Notification Preferences</label>
+                                    <div style="margin-top: 5px;">
+                                        <label style="display: flex; align-items: center; gap: 5px; margin-bottom: 5px;">
+                                            <input type="checkbox" id="notif-reminders" checked> Learning Reminders
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 5px; margin-bottom: 5px;">
+                                            <input type="checkbox" id="notif-content" checked> New Content Alerts
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 5px;">
+                                            <input type="checkbox" id="notif-jobs"> Job Opportunity Alerts
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <h3 style="margin: 25px 0 15px 0;">Data Privacy</h3>
+                                <div style="background-color: var(--accent); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                                    <p style="font-size: 14px; margin-bottom: 10px;">We take your privacy seriously. Your data is encrypted and never shared without your consent.</p>
+                                    <button class="btn btn-primary" style="width: 100%;" id="view-privacy">View Privacy Policy</button>
+                                </div>
+                                <button class="btn btn-danger" style="width: 100%;" id="delete-account">Delete Account</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assessment Modal -->
+    <div class="modal" id="assessment-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="assessment-title">Python Programming Assessment</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="assessment-container" id="assessment-questions">
+                <!-- Filled by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Assessment Results Modal -->
+    <div class="modal" id="results-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Assessment Results</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div style="text-align: center; padding: 20px;" id="results-content">
+                <!-- Filled by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Profile Modal -->
+    <div class="modal" id="profile-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Update Your Profile</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="profile-form">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-control" id="modal-name" value="John Smith" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" id="modal-email" value="john.smith@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Education Level</label>
+                    <select class="form-control" id="modal-education">
+                        <option>High School</option>
+                        <option selected>Bachelor's Degree</option>
+                        <option>Master's Degree</option>
+                        <option>PhD</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Current Job Title</label>
+                    <input type="text" class="form-control" id="modal-job" value="Junior Developer">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Years of Experience</label>
+                    <select class="form-control" id="modal-experience">
+                        <option>0 (Student)</option>
+                        <option selected>1-3 years</option>
+                        <option>4-6 years</option>
+                        <option>7-10 years</option>
+                        <option>10+ years</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Career Goal</label>
+                    <select class="form-control" id="modal-career-goal">
+                        <option>Data Scientist</option>
+                        <option selected>Data Analyst</option>
+                        <option>Machine Learning Engineer</option>
+                        <option>Software Developer</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Skills (Select all that apply)</label>
+                    <div style="columns: 2; margin-top: 5px;" id="skills-checkboxes">
+                        <!-- Filled by JavaScript -->
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn close-modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <span id="toast-message">Profile updated successfully!</span>
+    </div>
+
+    <script>
+        // Application State
+        const state = {
+            user: {
+                name: "John Smith",
+                email: "john.smith@example.com",
+                education: "Bachelor's Degree",
+                currentJob: "Junior Developer",
+                experience: "1-3 years",
+                careerGoal: "Data Analyst",
+                dailyGoal: "1 hour",
+                learningStyle: "Interactive (Hands-on exercises)",
+                notifications: {
+                    reminders: true,
+                    content: true,
+                    jobs: false
+                },
+                skills: {
+                    "Python": 82,
+                    "Data Analysis": 65,
+                    "Machine Learning": 45,
+                    "SQL": 70,
+                    "Data Visualization": 60,
+                    "Statistics": 68
+                },
+                completedAssessments: [
+                    {
+                        name: "Python Programming",
+                        date: "2023-06-10",
+                        score: 78,
+                        level: "Proficient"
+                    },
+                    {
+                        name: "Data Structures",
+                        date: "2023-05-28",
+                        score: 65,
+                        level: "Intermediate"
+                    }
+                ],
+                learningPath: [
+                    {
+                        id: 1,
+                        title: "Python Basics",
+                        description: "Learn Python fundamentals",
+                        status: "completed",
+                        completedDate: "2023-05-15"
+                    },
+                    {
+                        id: 2,
+                        title: "Data Analysis with Pandas",
+                        description: "Master data manipulation with Pandas",
+                        status: "completed",
+                        completedDate: "2023-06-02"
+                    },
+                    {
+                        id: 3,
+                        title: "Machine Learning Fundamentals",
+                        description: "Complete the interactive module on supervised learning algorithms",
+                        status: "current",
+                        progress: 42
+                    },
+                    {
+                        id: 4,
+                        title: "Data Visualization Project",
+                        description: "Apply your skills to create an interactive dashboard",
+                        status: "pending"
+                    },
+                    {
+                        id: 5,
+                        title: "Advanced Python Concepts",
+                        description: "Master decorators, generators, and context managers",
+                        status: "pending"
+                    },
+                    {
+                        id: 6,
+                        title: "SQL for Data Science",
+                        description: "Learn to query databases efficiently",
+                        status: "pending"
+                    }
+                ]
+            },
+            assessments: [
+                {
+                    name: "Python Programming",
+                    type: "adaptive",
+                    questions: 20,
+                    completed: false
+                },
+                {
+                    name: "Data Analysis",
+                    type: "adaptive",
+                    questions: 15,
+                    completed: false
+                },
+                {
+                    name: "Machine Learning Concepts",
+                    type: "adaptive",
+                    questions: 25,
+                    completed: false
+                }
+            ],
+            jobMarket: {
+                bestMatches: [
+                    {
+                        title: "Data Analyst",
+                        company: "TechCorp Inc.",
+                        location: "New York, NY",
+                        match: 87,
+                        salary: "$75K - $95K",
+                        demand: "High Demand",
+                        skills: ["SQL", "Python", "Tableau", "Excel"]
+                    },
+                    {
+                        title: "Junior Data Scientist",
+                        company: "DataWorks LLC",
+                        location: "Remote",
+                        match: 79,
+                        salary: "$85K - $110K",
+                        demand: "High Demand",
+                        skills: ["Python", "Pandas", "Scikit-learn", "Statistics"]
+                    },
+                    {
+                        title: "Business Intelligence Analyst",
+                        company: "Global Solutions",
+                        location: "Chicago, IL",
+                        match: 72,
+                        salary: "$70K - $90K",
+                        demand: "Medium Demand",
+                        skills: ["Power BI", "SQL", "Data Modeling", "Dashboarding"]
+                    }
+                ],
+                highDemand: [
+                    {
+                        title: "Machine Learning Engineer",
+                        company: "AI Innovations",
+                        location: "San Francisco, CA",
+                        match: 65,
+                        salary: "$120K - $160K",
+                        demand: "Very High",
+                        skills: ["Python", "TensorFlow", "PyTorch", "MLOps"]
+                    },
+                    {
+                        title: "Data Engineer",
+                        company: "CloudTech",
+                        location: "Remote",
+                        match: 58,
+                        salary: "$110K - $150K",
+                        demand: "Very High",
+                        skills: ["SQL", "Spark", "AWS", "ETL"]
+                    }
+                ],
+                emerging: [
+                    {
+                        title: "AI Ethics Specialist",
+                        company: "FutureTech",
+                        location: "Boston, MA",
+                        match: 42,
+                        salary: "$90K - $130K",
+                        demand: "Emerging",
+                        skills: ["Ethics", "AI", "Regulations", "Data Privacy"]
+                    },
+                    {
+                        title: "Quantum Computing Analyst",
+                        company: "QuantumLeap",
+                        location: "Austin, TX",
+                        match: 35,
+                        salary: "$100K - $140K",
+                        demand: "Emerging",
+                        skills: ["Quantum Physics", "Python", "Algorithms", "Linear Algebra"]
+                    }
+                ]
+            },
+            network: [
+                {
+                    name: "Sarah Johnson",
+                    title: "Senior Data Analyst at TechCorp",
+                    bio: "Specializes in healthcare data analytics. Alumni from your university."
+                },
+                {
+                    name: "Michael Chen",
+                    title: "Machine Learning Engineer at AI Solutions",
+                    bio: "Works on NLP projects. Interested in mentoring beginners."
+                },
+                {
+                    name: "David Wilson",
+                    title: "Data Science Hiring Manager at GlobalTech",
+                    bio: "Regularly hires junior data scientists. Active in local meetups."
+                }
+            ],
+            interviewPrep: {
+                options: [
+                    {
+                        title: "Technical Interview Practice",
+                        description: "Practice coding challenges similar to real technical interviews."
+                    },
+                    {
+                        title: "Behavioral Questions",
+                        description: "Prepare for common behavioral interview questions with AI feedback."
+                    },
+                    {
+                        title: "Mock Interviews",
+                        description: "Simulate a full interview experience with AI or human mentors."
+                    }
+                ],
+                questions: [
+                    {
+                        question: "How would you handle missing or inconsistent data in a dataset?",
+                        category: "Technical"
+                    },
+                    {
+                        question: "Explain a time when you used data to solve a problem.",
+                        category: "Behavioral"
+                    },
+                    {
+                        question: "How would you explain a technical concept to a non-technical stakeholder?",
+                        category: "Communication"
+                    }
+                ]
+            },
+            currentAssessment: null,
+            assessmentAnswers: {},
+            assessmentResults: {}
+        };
+
+        // DOM Elements
+        const elements = {
+            usernameDisplay: document.getElementById('username-display'),
+            welcomeMessage: document.getElementById('welcome-message'),
+            userGoalDisplay: document.getElementById('user-goal-display'),
+            overallProgress: document.getElementById('overall-progress'),
+            progressBar: document.getElementById('progress-bar'),
+            recommendedPath: document.getElementById('recommended-path'),
+            fullLearningPath: document.getElementById('full-learning-path'),
+            topJobMatches: document.getElementById('top-job-matches'),
+            availableAssessments: document.getElementById('available-assessments'),
+            completedAssessments: document.getElementById('completed-assessments'),
+            overallSkillLevel: document.getElementById('overall-skill-level'),
+            overallSkillBar: document.getElementById('overall-skill-bar'),
+            skillsGrid: document.getElementById('skills-grid'),
+            bestMatchesJobs: document.getElementById('best-matches-jobs'),
+            highDemandJobs: document.getElementById('high-demand-jobs'),
+            emergingJobs: document.getElementById('emerging-jobs'),
+            resumePreview: document.getElementById('resume-preview'),
+            resumeStrengths: document.getElementById('resume-strengths'),
+            resumeSuggestions: document.getElementById('resume-suggestions'),
+            optimizationRole: document.getElementById('optimization-role'),
+            networkConnections: document.getElementById('network-connections'),
+            interviewPrepOptions: document.getElementById('interview-prep-options'),
+            targetRole: document.getElementById('target-role'),
+            commonQuestions: document.getElementById('common-questions'),
+            profileName: document.getElementById('profile-name'),
+            profileEmail: document.getElementById('profile-email'),
+            careerGoal: document.getElementById('career-goal'),
+            experienceLevel: document.getElementById('experience-level'),
+            dailyGoal: document.getElementById('daily-goal'),
+            learningStyle: document.getElementById('learning-style'),
+            notifReminders: document.getElementById('notif-reminders'),
+            notifContent: document.getElementById('notif-content'),
+            notifJobs: document.getElementById('notif-jobs'),
+            modalName: document.getElementById('modal-name'),
+            modalEmail: document.getElementById('modal-email'),
+            modalEducation: document.getElementById('modal-education'),
+            modalJob: document.getElementById('modal-job'),
+            modalExperience: document.getElementById('modal-experience'),
+            modalCareerGoal: document.getElementById('modal-career-goal'),
+            skillsCheckboxes: document.getElementById('skills-checkboxes'),
+            assessmentModal: document.getElementById('assessment-modal'),
+            assessmentTitle: document.getElementById('assessment-title'),
+            assessmentQuestions: document.getElementById('assessment-questions'),
+            resultsModal: document.getElementById('results-modal'),
+            resultsContent: document.getElementById('results-content'),
+            profileModal: document.getElementById('profile-modal'),
+            toast: document.getElementById('toast'),
+            toastMessage: document.getElementById('toast-message')
+        };
+
+        // Initialize the application
+        function init() {
+            renderUserProfile();
+            renderLearningPath();
+            renderRecommendedPath();
+            renderJobMarket();
+            renderAssessments();
+            renderSkillsProfile();
+            renderCareerSupport();
+            renderSettings();
+            setupEventListeners();
+        }
+
+        // Render user profile information
+        function renderUserProfile() {
+            elements.usernameDisplay.textContent = state.user.name;
+            elements.welcomeMessage.textContent = `Welcome Back, ${state.user.name.split(' ')[0]}!`;
+            elements.userGoalDisplay.textContent = `Your personalized learning journey is tailored to help you achieve your career goals in ${state.user.careerGoal}.`;
+            
+            // Calculate overall progress
+            const completedItems = state.user.learningPath.filter(item => item.status === 'completed').length;
+            const totalItems = state.user.learningPath.length;
+            const progress = Math.round((completedItems / totalItems) * 100);
+            state.user.learningProgress = progress;
+            
+            elements.overallProgress.textContent = `${progress}%`;
+            elements.progressBar.style.width = `${progress}%`;
+            elements.progressBar.textContent = `${progress}%`;
+        }
+
+        // Render learning path
+        function renderLearningPath() {
+            elements.fullLearningPath.innerHTML = '';
+            
+            state.user.learningPath.forEach(item => {
+                const pathItem = document.createElement('div');
+                pathItem.className = `path-item ${item.status}`;
+                
+                pathItem.innerHTML = `
+                    <div class="path-icon">${item.status === 'completed' ? '✓' : item.status === 'current' ? item.id : item.id}</div>
+                    <div class="path-content">
+                        <div class="path-title">${item.title}</div>
+                        <div class="path-desc">${item.status === 'completed' ? `Completed on ${formatDate(item.completedDate)}` : 
+                                              item.status === 'current' ? `Estimated completion: ${getRandomTime()} weeks` : 
+                                              item.description}</div>
+                        ${item.status === 'current' ? '<button class="btn btn-primary" style="margin-top: 10px;">Continue Learning</button>' : ''}
+                    </div>
+                `;
+                
+                elements.fullLearningPath.appendChild(pathItem);
+            });
+        }
+
+        // Render recommended path (for dashboard)
+        function renderRecommendedPath() {
+            elements.recommendedPath.innerHTML = '';
+            
+            // Get current and next 2 items
+            const currentIndex = state.user.learningPath.findIndex(item => item.status === 'current');
+            const recommendedItems = state.user.learningPath.slice(currentIndex, currentIndex + 3);
+            
+            recommendedItems.forEach(item => {
+                const pathItem = document.createElement('div');
+                pathItem.className = `path-item ${item.status}`;
+                
+                pathItem.innerHTML = `
+                    <div class="path-icon">${item.status === 'completed' ? '✓' : item.status === 'current' ? item.id : item.id}</div>
+                    <div class="path-content">
+                        <div class="path-title">${item.title}</div>
+                        <div class="path-desc">${item.status === 'completed' ? `Completed on ${formatDate(item.completedDate)}` : 
+                                              item.status === 'current' ? `Estimated completion: ${getRandomTime()} weeks` : 
+                                              item.description}</div>
+                    </div>
+                `;
+                
+                elements.recommendedPath.appendChild(pathItem);
+            });
+        }
+
+        // Render job market
+        function renderJobMarket() {
+            // Top matches for dashboard
+            elements.topJobMatches.innerHTML = '';
+            state.jobMarket.bestMatches.slice(0, 2).forEach(job => {
+                const jobCard = document.createElement('div');
+                jobCard.className = 'job-card';
+                
+                jobCard.innerHTML = `
+                    <div class="job-title">${job.title}</div>
+                    <div class="job-company">${job.company}</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>Match: ${job.match}%</span>
+                        <span class="badge ${job.demand === 'High Demand' ? 'badge-success' : 'badge-warning'}">${job.demand}</span>
+                    </div>
+                    <div class="match-percentage">
+                        <div class="match-fill" style="width: ${job.match}%;"></div>
+                    </div>
+                    <div class="job-skills">
+                        ${job.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                    </div>
+                `;
+                
+                elements.topJobMatches.appendChild(jobCard);
+            });
+            
+            // Full job market
+            elements.bestMatchesJobs.innerHTML = '';
+            state.jobMarket.bestMatches.forEach(job => {
+                const jobCard = document.createElement('div');
+                jobCard.className = 'job-card';
+                
+                jobCard.innerHTML = `
+                    <div class="job-title">${job.title}</div>
+                    <div class="job-company">${job.company} • ${job.location}</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0;">
+                        <span>Match: ${job.match}%</span>
+                        <span class="badge badge-success">${job.salary}</span>
+                    </div>
+                    <div class="match-percentage">
+                        <div class="match-fill" style="width: ${job.match}%;"></div>
+                    </div>
+                    <div class="job-skills">
+                        ${job.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 15px;">View Details</button>
+                `;
+                
+                elements.bestMatchesJobs.appendChild(jobCard);
+            });
+            
+            elements.highDemandJobs.innerHTML = '';
+            state.jobMarket.highDemand.forEach(job => {
+                const jobCard = document.createElement('div');
+                jobCard.className = 'job-card';
+                
+                jobCard.innerHTML = `
+                    <div class="job-title">${job.title}</div>
+                    <div class="job-company">${job.company} • ${job.location}</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0;">
+                        <span>Demand: ${job.demand}</span>
+                        <span class="badge badge-success">${job.salary}</span>
+                    </div>
+                    <div class="job-skills">
+                        ${job.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                    </div>
+                    <div style="margin-top: 10px; font-size: 14px;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Your Match:</span>
+                            <span>${job.match}%</span>
+                        </div>
+                        <div class="match-percentage">
+                            <div class="match-fill" style="width: ${job.match}%;"></div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 15px;">View Details</button>
+                `;
+                
+                elements.highDemandJobs.appendChild(jobCard);
+            });
+            
+            elements.emergingJobs.innerHTML = '';
+            state.jobMarket.emerging.forEach(job => {
+                const jobCard = document.createElement('div');
+                jobCard.className = 'job-card';
+                
+                jobCard.innerHTML = `
+                    <div class="job-title">${job.title}</div>
+                    <div class="job-company">${job.company} • ${job.location}</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0;">
+                        <span>Demand: ${job.demand}</span>
+                        <span class="badge badge-success">${job.salary}</span>
+                    </div>
+                    <div class="job-skills">
+                        ${job.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                    </div>
+                    <div style="margin-top: 10px; font-size: 14px;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Your Match:</span>
+                            <span>${job.match}%</span>
+                        </div>
+                        <div class="match-percentage">
+                            <div class="match-fill" style="width: ${job.match}%;"></div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 15px;">View Details</button>
+                `;
+                
+                elements.emergingJobs.appendChild(jobCard);
+            });
+        }
+
+        // Render assessments
+        function renderAssessments() {
+            // Available assessments
+            elements.availableAssessments.innerHTML = '';
+            state.assessments.filter(a => !a.completed).forEach(assessment => {
+                const assessmentCard = document.createElement('div');
+                assessmentCard.className = 'card';
+                assessmentCard.style.backgroundColor = 'var(--accent)';
+                assessmentCard.style.marginBottom = '15px';
+                
+                assessmentCard.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="font-weight: 600; margin-bottom: 5px;">${assessment.name}</div>
+                            <div style="font-size: 14px; color: #666;">${assessment.questions} questions | ${assessment.type} assessment</div>
+                        </div>
+                        <button class="btn btn-primary start-assessment" data-assessment="${assessment.name.toLowerCase().replace(/\s+/g, '-')}">Start Assessment</button>
+                    </div>
+                `;
+                
+                elements.availableAssessments.appendChild(assessmentCard);
+            });
+            
+            // Completed assessments
+            elements.completedAssessments.innerHTML = '';
+            state.user.completedAssessments.forEach(assessment => {
+                const assessmentCard = document.createElement('div');
+                assessmentCard.className = 'card';
+                assessmentCard.style.backgroundColor = 'var(--accent)';
+                assessmentCard.style.marginBottom = '15px';
+                
+                assessmentCard.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="font-weight: 600; margin-bottom: 5px;">${assessment.name}</div>
+                            <div style="font-size: 14px; color: #666;">Completed on ${formatDate(assessment.date)} | Score: ${assessment.score}%</div>
+                        </div>
+                        <span class="badge ${assessment.level === 'Proficient' ? 'badge-success' : 'badge-warning'}">${assessment.level}</span>
+                    </div>
+                `;
+                
+                elements.completedAssessments.appendChild(assessmentCard);
+            });
+        }
+
+        // Render skills profile
+        function renderSkillsProfile() {
+            // Calculate overall skill level
+            const skills = Object.values(state.user.skills);
+            const avgSkill = Math.round(skills.reduce((a, b) => a + b, 0) / skills.length);
+            
+            elements.overallSkillLevel.textContent = `${getSkillLevel(avgSkill)} (${avgSkill}%)`;
+            elements.overallSkillBar.style.width = `${avgSkill}%`;
+            elements.overallSkillBar.textContent = `${avgSkill}%`;
+            
+            // Render skills grid
+            elements.skillsGrid.innerHTML = '';
+            for (const [skill, level] of Object.entries(state.user.skills)) {
+                const skillCard = document.createElement('div');
+                skillCard.className = 'skill-card';
+                
+                skillCard.innerHTML = `
+                    <div class="skill-name">${skill}</div>
+                    <div class="skill-level">${getSkillLevel(level)}</div>
+                    <div class="progress-container" style="height: 8px; margin-top: 10px;">
+                        <div class="progress-bar" style="width: ${level}%; height: 8px;"></div>
+                    </div>
+                `;
+                
+                elements.skillsGrid.appendChild(skillCard);
+            }
+        }
+
+        // Render career support
+        function renderCareerSupport() {
+            // Resume
+            elements.resumePreview.innerHTML = `
+                <h2 style="border-bottom: 2px solid #333; padding-bottom: 5px; margin-bottom: 15px;">${state.user.name}</h2>
+                <p style="margin-bottom: 15px;">${state.user.careerGoal} | ${Object.keys(state.user.skills).slice(0, 3).join(' | ')}</p>
+                
+                <h3 style="margin: 15px 0 10px 0; border-bottom: 1px solid #ddd; padding-bottom: 3px;">Skills</h3>
+                <ul style="columns: 2; margin-bottom: 15px;">
+                    ${Object.keys(state.user.skills).map(skill => `<li>${skill}</li>`).join('')}
+                </ul>
+                
+                <h3 style="margin: 15px 0 10px 0; border-bottom: 1px solid #ddd; padding-bottom: 3px;">Experience</h3>
+                <p><strong>${state.user.currentJob}</strong><br>
+                ${state.user.experience} of experience</p>
+                
+                <h3 style="margin: 15px 0 10px 0; border-bottom: 1px solid #ddd; padding-bottom: 3px;">Education</h3>
+                <p><strong>${state.user.education}</strong><br>
+                ${state.user.education === 'Bachelor\'s Degree' ? 'State University, 2018-2022' : 
+                 state.user.education === 'Master\'s Degree' ? 'State University, 2020-2022' : 
+                 'Various institutions'}
+                </p>
+            `;
+            
+            elements.resumeStrengths.innerHTML = `
+                <p><strong>✅ Strengths:</strong> Your resume shows good technical skills in ${Object.keys(state.user.skills).slice(0, 2).join(' and ')} that are in high demand.</p>
+            `;
+            
+            elements.resumeSuggestions.innerHTML = `
+                <p><strong>💡 Suggestions:</strong></p>
+                <ul style="margin-left: 20px; margin-top: 5px;">
+                    <li>Add specific projects with measurable outcomes</li>
+                    <li>Include any relevant certifications</li>
+                    <li>Highlight teamwork and communication skills</li>
+                </ul>
+            `;
+            
+            elements.optimizationRole.textContent = state.user.careerGoal;
+            
+            // Network
+            elements.networkConnections.innerHTML = '';
+            state.network.forEach(contact => {
+                const contactCard = document.createElement('div');
+                contactCard.style.backgroundColor = 'var(--accent)';
+                contactCard.style.padding = '15px';
+                contactCard.style.borderRadius = '8px';
+                
+                contactCard.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                        <div style="width: 40px; height: 40px; background-color: #ddd; border-radius: 50%;"></div>
+                        <div>
+                            <div style="font-weight: 600;">${contact.name}</div>
+                            <div style="font-size: 13px; color: #666;">${contact.title}</div>
+                        </div>
+                    </div>
+                    <div style="font-size: 14px; margin-bottom: 10px;">${contact.bio}</div>
+                    <button class="btn btn-primary" style="width: 100%;">Connect</button>
+                `;
+                
+                elements.networkConnections.appendChild(contactCard);
+            });
+            
+            // Interview Prep
+            elements.targetRole.textContent = state.user.careerGoal;
+            
+            elements.interviewPrepOptions.innerHTML = '';
+            state.interviewPrep.options.forEach(option => {
+                const optionCard = document.createElement('div');
+                optionCard.style.backgroundColor = 'var(--accent)';
+                optionCard.style.padding = '15px';
+                optionCard.style.borderRadius = '8px';
+                
+                optionCard.innerHTML = `
+                    <h4 style="margin-bottom: 10px;">${option.title}</h4>
+                    <p style="margin-bottom: 15px; font-size: 14px;">${option.description}</p>
+                    <button class="btn btn-primary" style="width: 100%;">Start Practice</button>
+                `;
+                
+                elements.interviewPrepOptions.appendChild(optionCard);
+            });
+            
+            elements.commonQuestions.innerHTML = '';
+            state.interviewPrep.questions.forEach((q, i) => {
+                const questionCard = document.createElement('div');
+                questionCard.style.backgroundColor = 'var(--accent)';
+                questionCard.style.padding = '15px';
+                questionCard.style.borderRadius = '8px';
+                questionCard.style.marginBottom = '15px';
+                
+                questionCard.innerHTML = `
+                    <div style="font-weight: 600; margin-bottom: 5px;">${q.question}</div>
+                    <div style="font-size: 14px;">
+                        <button class="btn btn-primary" style="padding: 5px 10px; font-size: 12px; margin-top: 10px;">View Sample Answer</button>
+                    </div>
+                `;
+                
+                elements.commonQuestions.appendChild(questionCard);
+            });
+        }
+
+        // Render settings
+        function renderSettings() {
+            elements.profileName.value = state.user.name;
+            elements.profileEmail.value = state.user.email;
+            elements.careerGoal.value = state.user.careerGoal;
+            elements.experienceLevel.value = state.user.experience;
+            elements.dailyGoal.value = state.user.dailyGoal;
+            elements.learningStyle.value = state.user.learningStyle;
+            elements.notifReminders.checked = state.user.notifications.reminders;
+            elements.notifContent.checked = state.user.notifications.content;
+            elements.notifJobs.checked = state.user.notifications.jobs;
+            
+            // Profile modal
+            elements.modalName.value = state.user.name;
+            elements.modalEmail.value = state.user.email;
+            elements.modalEducation.value = state.user.education;
+            elements.modalJob.value = state.user.currentJob;
+            elements.modalExperience.value = state.user.experience;
+            elements.modalCareerGoal.value = state.user.careerGoal;
+            
+            // Skills checkboxes
+            elements.skillsCheckboxes.innerHTML = '';
+            for (const [skill, level] of Object.entries(state.user.skills)) {
+                const checkbox = document.createElement('label');
+                checkbox.style.display = 'flex';
+                checkbox.style.alignItems = 'center';
+                checkbox.style.gap = '5px';
+                checkbox.style.marginBottom = '5px';
+                
+                checkbox.innerHTML = `
+                    <input type="checkbox" ${level > 0 ? 'checked' : ''} data-skill="${skill}"> ${skill}
+                `;
+                
+                elements.skillsCheckboxes.appendChild(checkbox);
+            }
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Tab navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Hide all tab contents
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Show selected tab content
+                    document.getElementById(tabId).classList.add('active');
+                    
+                    // Update active nav link
+                    document.querySelectorAll('.nav-link').forEach(navLink => {
+                        navLink.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                });
+            });
+
+            // Assessment tabs
+            document.querySelectorAll('[data-assessment-tab]').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-assessment-tab');
+                    
+                    // Update active tab
+                    document.querySelectorAll('[data-assessment-tab]').forEach(t => {
+                        t.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    document.querySelectorAll('.assessment-tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    document.getElementById(`${tabId}-assessments`).classList.add('active');
+                });
+            });
+
+            // Job market tabs
+            document.querySelectorAll('[data-job-tab]').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-job-tab');
+                    
+                    // Update active tab
+                    document.querySelectorAll('[data-job-tab]').forEach(t => {
+                        t.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    document.querySelectorAll('.job-tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    document.getElementById(`${tabId}-jobs`).classList.add('active');
+                });
+            });
+
+            // Career support tabs
+            document.querySelectorAll('[data-career-tab]').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-career-tab');
+                    
+                    // Update active tab
+                    document.querySelectorAll('[data-career-tab]').forEach(t => {
+                        t.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    document.querySelectorAll('.career-tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+
+            // Start assessment
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('start-assessment')) {
+                    const assessmentName = e.target.getAttribute('data-assessment');
+                    startAssessment(assessmentName);
+                }
+            });
+
+            // Close modals
+            document.querySelectorAll('.close-modal').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.modal').forEach(modal => {
+                        modal.style.display = 'none';
+                    });
+                });
+            });
+
+            // Close modal when clicking outside
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.style.display = 'none';
+                    }
+                });
+            });
+
+            // Update profile button
+            document.getElementById('update-profile-btn').addEventListener('click', function() {
+                document.getElementById('profile-modal').style.display = 'flex';
+            });
+
+            // Update skills button
+            document.getElementById('update-skills-btn').addEventListener('click', function() {
+                document.getElementById('profile-modal').style.display = 'flex';
+            });
+
+            // Save profile
+            document.getElementById('profile-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Update user state
+                state.user.name = elements.modalName.value;
+                state.user.email = elements.modalEmail.value;
+                state.user.education = elements.modalEducation.value;
+                state.user.currentJob = elements.modalJob.value;
+                state.user.experience = elements.modalExperience.value;
+                state.user.careerGoal = elements.modalCareerGoal.value;
+                
+                // Update skills
+                const checkboxes = elements.skillsCheckboxes.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(checkbox => {
+                    const skill = checkbox.getAttribute('data-skill');
+                    state.user.skills[skill] = checkbox.checked ? state.user.skills[skill] || 50 : 0;
+                });
+                
+                // Update UI
+                renderUserProfile();
+                renderLearningPath();
+                renderRecommendedPath();
+                renderSkillsProfile();
+                renderCareerSupport();
+                renderSettings();
+                
+                // Close modal and show toast
+                document.getElementById('profile-modal').style.display = 'none';
+                showToast('Profile updated successfully!');
+            });
+
+            // Save settings
+            document.getElementById('save-profile').addEventListener('click', function() {
+                state.user.name = elements.profileName.value;
+                state.user.email = elements.profileEmail.value;
+                state.user.careerGoal = elements.careerGoal.value;
+                state.user.experience = elements.experienceLevel.value;
+                state.user.dailyGoal = elements.dailyGoal.value;
+                state.user.learningStyle = elements.learningStyle.value;
+                state.user.notifications.reminders = elements.notifReminders.checked;
+                state.user.notifications.content = elements.notifContent.checked;
+                state.user.notifications.jobs = elements.notifJobs.checked;
+                
+                renderUserProfile();
+                renderCareerSupport();
+                showToast('Settings saved successfully!');
+            });
+
+            // View privacy policy
+            document.getElementById('view-privacy').addEventListener('click', function() {
+                alert('Privacy Policy:\n\nWe collect only the data you provide to personalize your learning experience. Your data is encrypted and never shared with third parties without your explicit consent. You can delete your account and all associated data at any time.');
+            });
+
+            // Delete account
+            document.getElementById('delete-account').addEventListener('click', function() {
+                if (confirm('Are you sure you want to delete your account? All your data will be permanently removed.')) {
+                    showToast('Account deleted successfully!', 'warning');
+                    setTimeout(() => {
+                        alert('Account deletion complete. You will now be redirected to the homepage.');
+                        window.location.href = '/';
+                    }, 2000);
+                }
+            });
+
+            // Download resume
+            document.getElementById('download-resume').addEventListener('click', function() {
+                showToast('Resume downloaded as PDF!');
+            });
+
+            // Optimize resume
+            document.getElementById('optimize-resume').addEventListener('click', function() {
+                showToast(`Resume optimized for ${state.user.careerGoal} roles!`);
+            });
+
+            // Refresh jobs
+            document.getElementById('refresh-jobs-btn').addEventListener('click', function() {
+                showToast('Job market data refreshed!');
+                renderJobMarket();
+            });
+        }
+
+        // Start assessment
+        function startAssessment(assessmentName) {
+            state.currentAssessment = assessmentName;
+            state.assessmentAnswers = {};
+            
+            // Set assessment title
+            elements.assessmentTitle.textContent = `${assessmentName.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} Assessment`;
+            
+            // Generate questions based on assessment type
+            elements.assessmentQuestions.innerHTML = '';
+            
+            let questions = [];
+            if (assessmentName === 'python-programming') {
+                questions = [
+                    {
+                        id: 1,
+                        text: "What is the output of the following Python code?\n\n<code>print([x**2 for x in range(5)])</code>",
+                        options: [
+                            { text: "[0, 1, 4, 9, 16]", correct: true },
+                            { text: "[1, 4, 9, 16, 25]", correct: false },
+                            { text: "[0, 1, 4, 9, 16, 25]", correct: false },
+                            { text: "Error", correct: false }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        text: "Which of the following is NOT a valid Python data type?",
+                        options: [
+                            { text: "list", correct: false },
+                            { text: "tuple", correct: false },
+                            { text: "array", correct: true },
+                            { text: "dict", correct: false }
+                        ]
+                    },
+                    {
+                        id: 3,
+                        text: "What does the <code>zip()</code> function do in Python?",
+                        options: [
+                            { text: "Compresses files to save disk space", correct: false },
+                            { text: "Combines multiple iterables into tuples", correct: true },
+                            { text: "Encrypts data for security", correct: false },
+                            { text: "Converts data to ZIP format", correct: false }
+                        ]
+                    }
+                ];
+            } else if (assessmentName === 'data-analysis') {
+                questions = [
+                    {
+                        id: 1,
+                        text: "What is the primary purpose of the Pandas library in Python?",
+                        options: [
+                            { text: "Data visualization", correct: false },
+                            { text: "Data manipulation and analysis", correct: true },
+                            { text: "Machine learning", correct: false },
+                            { text: "Web development", correct: false }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        text: "Which Pandas method is used to display the first few rows of a DataFrame?",
+                        options: [
+                            { text: "head()", correct: true },
+                            { text: "tail()", correct: false },
+                            { text: "peek()", correct: false },
+                            { text: "sample()", correct: false }
+                        ]
+                    },
+                    {
+                        id: 3,
+                        text: "What does the term 'NaN' represent in Pandas?",
+                        options: [
+                            { text: "Not a Number", correct: true },
+                            { text: "Negative and Null", correct: false },
+                            { text: "New and Notable", correct: false },
+                            { text: "Numbered Annotation", correct: false }
+                        ]
+                    }
+                ];
+            } else {
+                questions = [
+                    {
+                        id: 1,
+                        text: "What is the difference between supervised and unsupervised learning?",
+                        options: [
+                            { text: "Supervised uses labeled data, unsupervised doesn't", correct: true },
+                            { text: "Supervised is faster than unsupervised", correct: false },
+                            { text: "Unsupervised requires more computational power", correct: false },
+                            { text: "There is no difference", correct: false }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        text: "Which algorithm would you use for a binary classification problem?",
+                        options: [
+                            { text: "Linear Regression", correct: false },
+                            { text: "K-Means Clustering", correct: false },
+                            { text: "Logistic Regression", correct: true },
+                            { text: "Principal Component Analysis", correct: false }
+                        ]
+                    },
+                    {
+                        id: 3,
+                        text: "What is overfitting in machine learning?",
+                        options: [
+                            { text: "When a model performs well on training data but poorly on unseen data", correct: true },
+                            { text: "When a model is too simple to capture patterns in the data", correct: false },
+                            { text: "When a model takes too long to train", correct: false },
+                            { text: "When a model is trained on too much data", correct: false }
+                        ]
+                    }
+                ];
+            }
+            
+            // Render questions
+            questions.forEach((question, index) => {
+                const questionCard = document.createElement('div');
+                questionCard.className = `question-card ${index === 0 ? 'active' : ''}`;
+                questionCard.dataset.question = question.id;
+                
+                const optionsList = question.options.map(option => `
+                    <li class="option-item">
+                        <button class="option-btn" data-correct="${option.correct}">${option.text}</button>
+                    </li>
+                `).join('');
+                
+                questionCard.innerHTML = `
+                    <div class="question-text">${question.text}</div>
+                    <ul class="options-list">${optionsList}</ul>
+                    <div class="navigation-btns">
+                        <button class="btn prev-question" ${index === 0 ? 'disabled' : ''}>Previous</button>
+                        <button class="btn btn-primary ${index === questions.length - 1 ? 'submit-assessment' : 'next-question'}">
+                            ${index === questions.length - 1 ? 'Submit' : 'Next'}
+                        </button>
+                    </div>
+                `;
+                
+                elements.assessmentQuestions.appendChild(questionCard);
+            });
+            
+            // Show assessment modal
+            document.getElementById('assessment-modal').style.display = 'flex';
+            
+            // Add question navigation
+            setupQuestionNavigation(questions);
+        }
+
+        // Setup question navigation
+        function setupQuestionNavigation(questions) {
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('next-question')) {
+                    const currentCard = e.target.closest('.question-card');
+                    const nextId = parseInt(currentCard.dataset.question) + 1;
+                    const nextCard = document.querySelector(`.question-card[data-question="${nextId}"]`);
+                    
+                    if (nextCard) {
+                        currentCard.classList.remove('active');
+                        nextCard.classList.add('active');
+                        
+                        // Enable previous button
+                        nextCard.querySelector('.prev-question').disabled = false;
+                    }
+                }
+                
+                if (e.target.classList.contains('prev-question')) {
+                    const currentCard = e.target.closest('.question-card');
+                    const prevId = parseInt(currentCard.dataset.question) - 1;
+                    const prevCard = document.querySelector(`.question-card[data-question="${prevId}"]`);
+                    
+                    if (prevCard) {
+                        currentCard.classList.remove('active');
+                        prevCard.classList.add('active');
+                        
+                        // Disable previous button on first question
+                        if (prevId === 1) {
+                            prevCard.querySelector('.prev-question').disabled = true;
+                        }
+                    }
+                }
+                
+                if (e.target.classList.contains('option-btn') && !e.target.classList.contains('selected')) {
+                    // Remove selected class from all options in this question
+                    const options = e.target.closest('.options-list').querySelectorAll('.option-btn');
+                    options.forEach(option => {
+                        option.classList.remove('selected');
+                    });
+                    
+                    // Add selected class to clicked option
+                    e.target.classList.add('selected');
+                    
+                    // Store answer
+                    const questionId = e.target.closest('.question-card').dataset.question;
+                    state.assessmentAnswers[questionId] = {
+                        selected: e.target.textContent,
+                        correct: e.target.dataset.correct === 'true'
+                    };
+                }
+                
+                if (e.target.classList.contains('submit-assessment')) {
+                    submitAssessment();
+                }
+            });
+        }
+
+        // Submit assessment
+        function submitAssessment() {
+            // Calculate score
+            const totalQuestions = Object.keys(state.assessmentAnswers).length;
+            const correctAnswers = Object.values(state.assessmentAnswers).filter(answer => answer.correct).length;
+            const score = Math.round((correctAnswers / totalQuestions) * 100);
+            
+            // Determine level
+            let level;
+            if (score >= 80) level = "Proficient";
+            else if (score >= 60) level = "Intermediate";
+            else level = "Beginner";
+            
+            // Store results
+            state.assessmentResults = {
+                assessment: state.currentAssessment,
+                score: score,
+                level: level,
+                date: new Date().toISOString().split('T')[0],
+                strengths: getRandomStrengths(),
+                weaknesses: getRandomWeaknesses()
+            };
+            
+            // Add to completed assessments if not already there
+            const assessmentName = state.currentAssessment.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+            const existingIndex = state.user.completedAssessments.findIndex(a => a.name === assessmentName);
+            
+            if (existingIndex === -1) {
+                state.user.completedAssessments.push({
+                    name: assessmentName,
+                    date: state.assessmentResults.date,
+                    score: state.assessmentResults.score,
+                    level: state.assessmentResults.level
+                });
+            } else {
+                state.user.completedAssessments[existingIndex] = {
+                    name: assessmentName,
+                    date: state.assessmentResults.date,
+                    score: state.assessmentResults.score,
+                    level: state.assessmentResults.level
+                };
+            }
+            
+            // Mark assessment as completed
+            const assessmentIndex = state.assessments.findIndex(a => a.name.toLowerCase().replace(/\s+/g, '-') === state.currentAssessment);
+            if (assessmentIndex !== -1) {
+                state.assessments[assessmentIndex].completed = true;
+            }
+            
+            // Update skills based on assessment results
+            updateSkillsFromAssessment(assessmentName, score);
+            
+            // Close assessment modal
+            document.getElementById('assessment-modal').style.display = 'none';
+            
+            // Show results modal
+            showResults();
+        }
+
+        // Show assessment results
+        function showResults() {
+            const { assessment, score, level, strengths, weaknesses } = state.assessmentResults;
+            
+            elements.resultsContent.innerHTML = `
+                <div style="width: 150px; height: 150px; margin: 0 auto 20px; border-radius: 50%; 
+                            background: conic-gradient(var(--success) ${score}%, #eee 0%); 
+                            display: flex; align-items: center; justify-content: center;">
+                    <div style="width: 130px; height: 130px; background-color: white; border-radius: 50%; 
+                                display: flex; align-items: center; justify-content: center; 
+                                font-size: 24px; font-weight: bold;">
+                        ${score}%
+                    </div>
+                </div>
+                <h3 style="margin-bottom: 10px;">${assessment.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} Assessment</h3>
+                <p style="margin-bottom: 20px; color: #666;">You scored higher than ${Math.min(score + 15, 95)}% of learners at your level!</p>
+                
+                <div style="background-color: var(--accent); padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: left;">
+                    <h4 style="margin-bottom: 10px;">Strengths</h4>
+                    <ul style="margin-left: 20px;">
+                        ${strengths.map(strength => `<li>${strength}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <div style="background-color: var(--accent); padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: left;">
+                    <h4 style="margin-bottom: 10px;">Areas for Improvement</h4>
+                    <ul style="margin-left: 20px;">
+                        ${weaknesses.map(weakness => `<li>${weakness}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <button class="btn btn-primary" id="view-recommendations-btn" style="width: 100%;">View Learning Recommendations</button>
+            `;
+            
+            document.getElementById('results-modal').style.display = 'flex';
+            
+            // Add event listener for recommendations button
+            document.getElementById('view-recommendations-btn').addEventListener('click', function() {
+                document.getElementById('results-modal').style.display = 'none';
+                
+                // Switch to learning path tab
+                document.querySelector('.nav-link[data-tab="learning-path"]').click();
+                
+                showToast('Learning recommendations updated based on your assessment!');
+            });
+        }
+
+        // Update skills based on assessment results
+        function updateSkillsFromAssessment(assessmentName, score) {
+            const skillMap = {
+                "Python Programming": "Python",
+                "Data Analysis": "Data Analysis",
+                "Machine Learning Concepts": "Machine Learning"
+            };
+            
+            const skill = skillMap[assessmentName];
+            if (skill) {
+                // Update skill level based on assessment score
+                state.user.skills[skill] = score;
+                
+                // Update UI
+                renderSkillsProfile();
+                renderUserProfile();
+            }
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            elements.toastMessage.textContent = message;
+            elements.toast.className = 'toast';
+            elements.toast.classList.add(type === 'error' ? 'error' : type === 'warning' ? 'warning' : 'show');
+            
+            setTimeout(() => {
+                elements.toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Helper functions
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString(undefined, options);
+        }
+
+        function getRandomTime() {
+            return Math.floor(Math.random() * 3) + 1; // 1-3 weeks
+        }
+
+        function getSkillLevel(score) {
+            if (score >= 80) return "Advanced";
+            if (score >= 60) return "Intermediate";
+            if (score >= 40) return "Beginner";
+            return "Novice";
+        }
+
+        function getRandomStrengths() {
+            const strengths = {
+                "Python Programming": ["List comprehensions", "Built-in functions", "Basic syntax"],
+                "Data Analysis": ["Data cleaning", "Basic aggregations", "Filtering data"],
+                "Machine Learning Concepts": ["Understanding of algorithms", "Model evaluation", "Feature engineering"]
+            };
+            
+            const assessment = state.currentAssessment.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+            return strengths[assessment] || ["Problem solving", "Logical thinking"];
+        }
+
+        function getRandomWeaknesses() {
+            const weaknesses = {
+                "Python Programming": ["Data structures", "Advanced function usage", "Error handling"],
+                "Data Analysis": ["Advanced aggregations", "Time series analysis", "Performance optimization"],
+                "Machine Learning Concepts": ["Hyperparameter tuning", "Neural networks", "Model deployment"]
+            };
+            
+            const assessment = state.currentAssessment.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+            return weaknesses[assessment] || ["Advanced concepts", "Real-world application"];
+        }
+
+        // Initialize the application
+        init();
+    </script>
+</body>
+</html>
